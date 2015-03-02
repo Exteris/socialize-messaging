@@ -81,7 +81,7 @@ Meteor.publish("messagesFor", function(conversationId, options){
     }
 
     if(user.isParticipatingIn(conversation)){
-        return conversation.messages(options.limit, options.skip, "date", -1);
+        return conversation.messages(options.limit, options.skip, "date", 1);
     } else {
         return [];
     }
