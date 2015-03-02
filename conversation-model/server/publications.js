@@ -70,6 +70,16 @@ Meteor.publish("messagesFor", function(conversationId, options){
 
     var conversation = Conversation.createEmpty(conversationId);
 
+    if (options == undefined) {
+        options = {};
+    }
+    if (options.limit == undefined) {
+        options.limit = 0;
+    }
+    if (options.skip == undefined) {
+        options.skip = 0;
+    }
+
     if(user.isParticipatingIn(conversation)){
         return conversation.messages(options.limit, options.skip, "date", -1);
     }
