@@ -75,6 +75,10 @@ var MessageSchema = new SimpleSchema({
         type:[String],
         defaultValue:[],
         optional:true
+    },
+    "type":{
+        type:String,
+        optional:true,
     }
 });
 
