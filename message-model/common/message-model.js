@@ -76,7 +76,7 @@ var MessageSchema = new SimpleSchema({
         defaultValue:[],
         optional:true
     },
-    "type":{
+    "messageType":{
         type:String,
         optional:true,
     }
