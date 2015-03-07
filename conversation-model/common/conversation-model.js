@@ -85,9 +85,14 @@ Conversation.prototype.lastMessage = function () {
  * @param {String}   body     The body of the message
  * @param {Function} callback The callback to run upon insertion of the document
  */
-Conversation.prototype.sendMessage = function (body, callback) {
+Conversation.prototype.sendMessage = function (body, type, callback) {
     //TODO: Should we use new Message({body:body, conversationId:this._id}).save() ?
-    return MessagesCollection.insert({body:body, conversationId:this._id}, callback);
+    message = {body: body,
+        conversationId: this._id};
+    if (type != undefined) {
+        message["type"] = type
+    }
+    return MessagesCollection.insert(message, callback);
 };
 
 /**
