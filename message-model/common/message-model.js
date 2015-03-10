@@ -30,6 +30,55 @@ Message.prototype.timestamp = function () {
     return stamp += this.date.toLocaleTimeString();
 };
 
+/**
+ * Get the number of likes of a message
+ */
+Message.prototype.numLikes = function () {
+    return this.likes.length;
+}
+
+/**
+ * Does a message have likes?
+ */
+Message.prototype.hasLikes = function () {
+    return this.likes.length > 0;
+}
+
+/**
+ * Like a message
+ */
+Message.prototype.like = function () {
+    if (_.find(this.likes, function(el) { return el == Meteor.userId()})) {
+        return false;
+    } else {
+        Meteor.messages.update(this._id, {$push: {'likes': Meteor.userId()}});
+        return true;
+    }
+}
+
+/**
+ * Stop liking a message
+ */
+Message.prototype.unlike = function () {
+    if (_.find(this.likes, function(el) { return el == Meteor.userId()})) {
+        Meteor.messages.update(this._id, {$pull: {'likes': Meteor.userId()}});
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Toggle like status of this message
+ */
+Message.prototype.likeToggle = function () {
+    if (_.find(this.likes, function(el) { return el == Meteor.userId()})) {
+        return this.unlike();
+    } else {
+        return this.like();
+    }
+}
+
 //Create the messages collection and assign a reference to Message.prototype._collection so BaseModel has access to it
 MessagesCollection = Message.prototype._collection = new Mongo.Collection("messages", {
     transform: function (document) {
@@ -79,7 +128,12 @@ var MessageSchema = new SimpleSchema({
     "messageType":{
         type:String,
         optional:true,
-    }
+    },
+    "likes":{
+        type:[String],
+        defaultValue:[],
+        optional:true,
+    },
 });
 
 //Attach the schema
