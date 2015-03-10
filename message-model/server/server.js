@@ -7,8 +7,6 @@ MessagesCollection.allow({
     },
     //If the user sent the message, let them modify it.
     update: function (userId, message, fields, modifier) {
-        console.log(fields);
-        console.log(modifier);
         if (message.checkOwnership) {
             return message.checkOwnership();
         } else {
