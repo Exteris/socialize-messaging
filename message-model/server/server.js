@@ -7,14 +7,14 @@ MessagesCollection.allow({
     },
     //If the user sent the message, let them modify it.
     update: function (userId, message, fields, modifier) {
-        if (message.checkOwnership) {
-            return message.checkOwnership();
+        // Test the field list, likes are allowed for all conversation participants
+        if (fields.length == 1 && fields[0] == 'likes') {
+            if(ParticipantsCollection.findOne({userId:userId, conversationId:message.conversationId})){
+                return true;
+            }
         } else {
-            // Test the field list, likes are allowed for all conversation participants
-            if (fields.length == 1 && fields[0] == 'likes') {
-                if(ParticipantsCollection.findOne({userId:userId, conversationId:message.conversationId})){
-                    return true;
-                }
+            if (message.checkOwnership) {
+                return message.checkOwnership();
             }
         }
 
