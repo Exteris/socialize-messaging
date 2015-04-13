@@ -34,14 +34,18 @@ Message.prototype.timestamp = function () {
  * Get the number of likes of a message
  */
 Message.prototype.numLikes = function () {
-    return this.likes.length;
+    if (!this.likes) {
+        return 0;
+    } else {
+        return this.likes.length;
+    }
 }
 
 /**
  * Does a message have likes?
  */
 Message.prototype.hasLikes = function () {
-    return this.likes.length > 0;
+    return this.numLikes() > 0;
 }
 
 /**
